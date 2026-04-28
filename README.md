@@ -1,10 +1,13 @@
-# Project Title
+# 2024/25 NBA MVP ANALYSIS
 
-Write a 1-2 sentences that quickly and clearly convey what your repo is for.
+This Repo Is A Statistical Comparison of Shai Gilgeous-Alexander, Nikola Jokić, and Luka Dončić, Based On the 2024/25 Regular NBA Season 
 
 ## Overview
 
-Expand on those introductory sentences with a brief but informative description of your project's purpose and goals. This section should help visitors decide whether they should dig deeper into your repo/project.
+This project analyzes game-by-game performance data from the 2024–2025 NBA season to compare three leading MVP candidates: Shai Gilgeous-Alexander, Nikola Jokić, and Luka Dončić. Using detailed statistics such as scoring, efficiency, rebounds, assists, and advanced shooting metrics, we aim to determine who had the most impactful season.
+
+We explore key basketball concepts like volume scoring vs. efficiency, positional differences, and how playing time influences performance. Through data wrangling and visualization, we identify patterns and player strengths to support a data-driven MVP argument.
+
 
 ### Interesting Insight (Optional)
 
@@ -16,7 +19,7 @@ Be sure to list where you got any data used within the project. Be sure to ackno
 
 ## Current Plan
 
-Provide some information about what you intend to do with the project. You can additionally refer the visitor to your detailed plan document.
+This project analyzes game-by-game performance data from the 2024–2025 NBA season to compare MVP candidates Shai Gilgeous-Alexander, Luka Dončić, and Nikola Jokić. Rather than relying on raw statistics alone, we account for positional differences by comparing each player’s performance relative to the league average for their position.
 
 ## Repo Structure
 
