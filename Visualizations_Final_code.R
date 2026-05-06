@@ -13,13 +13,13 @@
 ### Wrangling the data and creating the plots
 
 # Step 1: Load packages ----
-## Needed packages: {tidyverse}, {knitr}
+## Needed packages: {tidyverse}, {knitr} 
 
 library(tidyverse)
 library(knitr)
 
 # Step 2: Load data ----
-## Needed data: NBA player per game statistics
+## Needed data: NBA player game statistics
 
 nba <- read_csv("nba_per_game25.csv")
 
@@ -36,7 +36,7 @@ nba <- nba |>
   filter(Player != "Player")
 
 # Step 5: Remove duplicate player rows ----
-## Keep the combined team row for players who played on multiple teams
+##Keep the combined team row for players who played on multiple teams
 
 nba <- nba |>
   filter(Team == "2TM" | !duplicated(Player))
@@ -50,7 +50,7 @@ nba <- nba |>
 # Step 7: Create MVP candidate dataset ----
 ## Keep the three players we want to compare
 
-mvpCandidates <- nba |>
+mvpcandidates <- nba |>
   filter(Player %in% c(
     "Luka Dončić",
     "Nikola Jokić",
@@ -59,13 +59,13 @@ mvpCandidates <- nba |>
 
 View(mvpCandidates)
 
-# Step 8: Create points and assists scatterplot ---- 
+# Step 8: Create points and assists scatterplot ----
 ## Code Header:
 ## Primary Author: Naman Joshi
 ## Reviewer: Kevin Nguyen
 ## This plot compares scoring and playmaking while highlighting the MVP candidates
 
-pointsAssistsPlot <- ggplot(
+pointsassistsplot <- ggplot(
   data = nba,
   aes(
     x = PTS,
@@ -94,7 +94,7 @@ pointsAssistsPlot <- ggplot(
   )
 
 # Show plot
-pointsAssistsPlot
+pointsassistsplot
 
 # Step 8B: Create points and assists table ----
 ## Code Header:
@@ -102,7 +102,7 @@ pointsAssistsPlot
 ## Reviewer: Kevin Nguyen
 ## This table supports the points vs assists plot by comparing scoring and playmaking.
 
-namanPointsAssistsTable <- mvpCandidates |>
+namanpointsassiststable <- mvpCandidates |>
   select(
     Player,
     Team,
@@ -111,7 +111,7 @@ namanPointsAssistsTable <- mvpCandidates |>
     AST
   )
 
-colnames(namanPointsAssistsTable) <- c(
+colnames(namanpointsassiststable) <- c(
   "Player",
   "Team",
   "Position",
@@ -119,7 +119,7 @@ colnames(namanPointsAssistsTable) <- c(
   "Assists Per Game"
 )
 
-namanPointsAssistsTable <- namanPointsAssistsTable |>
+namanpointsassiststable <- namanpointsassiststable |>
   mutate(
     `Points Per Game` = round(`Points Per Game`, 1),
     `Assists Per Game` = round(`Assists Per Game`, 1)
@@ -137,7 +137,7 @@ knitr::kable(
 ## Reviewer: Naman Joshi
 ## This plot compares the distribution of scoring across player positions
 
-pointsPositionPlot <- ggplot(
+pointspositionplot <- ggplot(
   data = nba,
   aes(
     x = Pos,
@@ -164,7 +164,7 @@ pointsPositionPlot
 ## Reviewer: Naman Joshi
 ## This summarizes average points, rebounds, and assists for each NBA position
 
-positionStats <- nba |>
+positionstats <- nba |>
   group_by(Pos) |>
   summarize(
     points = mean(PTS, na.rm = TRUE),
@@ -172,14 +172,14 @@ positionStats <- nba |>
     assists = mean(AST, na.rm = TRUE)
   )
 
-positionStatsLong <- positionStats |>
+positionstatslong <- positionStats |>
   pivot_longer(
     cols = c(points, rebounds, assists),
     names_to = "stat",
     values_to = "average"
   )
 
-positionStatsLong <- positionStatsLong |>
+positionstatslong <- positionStatsLong |>
   mutate(
     stat = case_when(
       stat == "points" ~ "Points",
@@ -194,7 +194,7 @@ positionStatsLong <- positionStatsLong |>
 ## Reviewer: Naman Joshi
 ## This plot compares average points, rebounds, and assists for each position
 
-positionStatsPlot <- ggplot(
+positionstatsplot <- ggplot(
   data = positionStatsLong,
   aes(
     x = Pos,
@@ -220,7 +220,7 @@ positionStatsPlot
 ## Reviewer: Kevin Nguyen
 ## This table compares the main statistics for the selected players
 
-mvpTable <- mvpcandidates %>%
+mvptable <- mvpcandidates |>
   select(
     Player,
     Team,
@@ -237,7 +237,7 @@ mvpTable <- mvpcandidates %>%
   )
 
 # Rename columns to look cleaner
-colnames(mvpTable) <- c(
+colnames(mvptable) <- c(
   "Player",
   "Team",
   "Position",
@@ -253,7 +253,7 @@ colnames(mvpTable) <- c(
 )
 
 # Round numeric columns
-mvpTable <- mvpTable %>%
+mvptable <- mvptable |>
   mutate(
     Minutes = round(Minutes, 1),
     Points = round(Points, 1),
