@@ -85,7 +85,15 @@ Overall, this analysis shows that MVP-level performance is not defined by scorin
 
 ---
 
-## Authors
+**Naman Joshi**  
+- Applied Data Sciences & Supply Chain Management  
+- The Pennsylvania State University  
+- Email: nfj5099@psu.edu  
+
+**Kevin Nguyen**  
+- Computational Data Sciences  
+- The Pennsylvania State University  
+- Email: kpn5284@psu.edu  
 
 ### Naman Joshi
 - Applied Data Sciences & Supply Chain Management  
@@ -103,6 +111,5 @@ Overall, this analysis shows that MVP-level performance is not defined by scorin
 - Email: oib5054@psu.edu  
 
 ---
-
 
 
