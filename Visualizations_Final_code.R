@@ -1,4 +1,7 @@
 # NBA MVP Candidate Visualizations ----
+# Style Guide: tidyverse Style Guide
+
+
 ## Our goals are:
 ## - To use visualizations to show analytically, the MVP of the 2024/25 NBA season.
 ## - Clean the NBA player statistics data
