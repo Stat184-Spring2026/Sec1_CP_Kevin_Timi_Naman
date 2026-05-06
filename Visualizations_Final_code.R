@@ -13,9 +13,10 @@
 ### Wrangling the data and creating the plots
 
 # Step 1: Load packages ----
-## Needed packages: {tidyverse}
+## Needed packages: {tidyverse}, {knitr}
 
 library(tidyverse)
+library(knitr)
 
 # Step 2: Load data ----
 ## Needed data: NBA player per game statistics
@@ -58,7 +59,10 @@ mvpCandidates <- nba |>
 
 View(mvpCandidates)
 
-# Step 8: Create points and assists scatterplot ----
+# Step 8: Create points and assists scatterplot ---- 
+## Code Header:
+## Primary Author: Naman Joshi
+## Reviewer: Kevin Nguyen
 ## This plot compares scoring and playmaking while highlighting the MVP candidates
 
 pointsAssistsPlot <- ggplot(
@@ -92,7 +96,45 @@ pointsAssistsPlot <- ggplot(
 # Show plot
 pointsAssistsPlot
 
+# Step 8B: Create points and assists table ----
+## Code Header:
+## Primary Author: Naman Joshi
+## Reviewer: Kevin Nguyen
+## This table supports the points vs assists plot by comparing scoring and playmaking.
+
+namanPointsAssistsTable <- mvpCandidates |>
+  select(
+    Player,
+    Team,
+    Pos,
+    PTS,
+    AST
+  )
+
+colnames(namanPointsAssistsTable) <- c(
+  "Player",
+  "Team",
+  "Position",
+  "Points Per Game",
+  "Assists Per Game"
+)
+
+namanPointsAssistsTable <- namanPointsAssistsTable |>
+  mutate(
+    `Points Per Game` = round(`Points Per Game`, 1),
+    `Assists Per Game` = round(`Assists Per Game`, 1)
+  )
+
+knitr::kable(
+  namanPointsAssistsTable,
+  caption = "Points and assists comparison for MVP candidates"
+)
+
+
 # Step 9: Create points by position boxplot ----
+## Code Header:
+## Primary Author: Kevin Nguyen
+## Reviewer: Naman Joshi
 ## This plot compares the distribution of scoring across player positions
 
 pointsPositionPlot <- ggplot(
@@ -117,55 +159,65 @@ pointsPositionPlot
 
 
 # Step 10: Create average stats by position table ----
-## This summarizes average points, rebounds, and assists by position
+## Code Header:
+## Primary Author: Timilehin Balogun
+## Reviewer: Naman Joshi
+## This summarizes average points, rebounds, and assists for each NBA position
 
-positionSummary <- nba |>
+positionStats <- nba |>
   group_by(Pos) |>
   summarize(
-    avg_points = mean(PTS, na.rm = TRUE),
-    avg_rebounds = mean(TRB, na.rm = TRUE),
-    avg_assists = mean(AST, na.rm = TRUE)
+    points = mean(PTS, na.rm = TRUE),
+    rebounds = mean(TRB, na.rm = TRUE),
+    assists = mean(AST, na.rm = TRUE)
   )
 
-positionSummaryLong <- positionSummary |>
+positionStatsLong <- positionStats |>
   pivot_longer(
-    cols = c(avg_points, avg_rebounds, avg_assists),
-    names_to = "stat_type",
-    values_to = "average_value"
-  ) |>
+    cols = c(points, rebounds, assists),
+    names_to = "stat",
+    values_to = "average"
+  )
+
+positionStatsLong <- positionStatsLong |>
   mutate(
-    stat_type = case_when(
-      stat_type == "avg_points" ~ "Points",
-      stat_type == "avg_rebounds" ~ "Rebounds",
-      stat_type == "avg_assists" ~ "Assists"
+    stat = case_when(
+      stat == "points" ~ "Points",
+      stat == "rebounds" ~ "Rebounds",
+      stat == "assists" ~ "Assists"
     )
   )
 
-
 # Step 11: Create average stats by position bar chart ----
+## Code Header:
+## Primary Author: Timilehin Balogun
+## Reviewer: Naman Joshi
 ## This plot compares average points, rebounds, and assists for each position
 
 positionStatsPlot <- ggplot(
-  data = positionSummaryLong,
+  data = positionStatsLong,
   aes(
     x = Pos,
-    y = average_value,
-    fill = stat_type
+    y = average,
+    fill = stat
   )
 ) +
   geom_col(position = "dodge") +
   labs(
-    title = "Average Points, Rebounds, and Assists by NBA Position",
-    subtitle = "2024-25 NBA player per game statistics",
+    title = "Average Points, Rebounds, and Assists by Position",
     x = "Position",
     y = "Average Per Game",
-    fill = "Statistic"
-  )
+    fill = "Stat"
+  ) +
+  theme_minimal()
 
 # Show plot
 positionStatsPlot
 
 # Step 12: Create MVP candidate table ----
+## Code Header:
+## Primary Author: Timilehin Balogun
+## Reviewer: Kevin Nguyen
 ## This table compares the main statistics for the selected players
 
 mvpTable <- mvpcandidates %>%
