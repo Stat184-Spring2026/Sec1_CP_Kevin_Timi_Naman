@@ -43,4 +43,43 @@ README.md
 
 ## Authors
 
+  - name: Naman Joshi
+    corresponding: true
+    email: nfj5099@psu.edu
+    role:
+      - Student
+      - Applied Data Sciences and Supply Chain Management
+    affiliations: 
+      - id: psu
+        name: The Pennsylvania State University
+        city: University Park
+        state: PA
+        country: USA
+        
+  - name: Kevin Nguyen
+    corresponding: true
+    email: kpn5284@psu.edu
+    role:
+      - Student
+      - Computational Data Sciences
+    affiliations: 
+      - id: psu
+        name: The Pennsylvania State University
+        city: University Park
+        state: PA
+        country: USA
+        
+  - name: Timilehin Balogun
+    corresponding: true
+    email: oib5054@psu.edu
+    role:
+      - Student
+      - Applied Data Sciences
+    affiliations: 
+      - id: psu
+        name: The Pennsylvania State University
+        city: University Park
+        state: PA
+        country: USA
+
 
