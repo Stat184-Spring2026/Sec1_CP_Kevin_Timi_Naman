@@ -32,10 +32,15 @@ We exported the dataset as a CSV file and then cleaned it up using R
 This project analyzes game-by-game performance data from the 2024–2025 NBA season to compare MVP candidates Shai Gilgeous-Alexander, Luka Dončić, and Nikola Jokić. Rather than relying on raw statistics alone, we account for positional differences by comparing each player’s performance relative to the league average for their position.
 
 ## Repo Structure
+This repo has all our files related to our Final Project about the 2024-2025 Finalist for MVP compared to league average Data Analysist
+Files include: 
+Visualization_Final_code.R
+NBA_FinalProj_ST184.qmd
+nba_per_game25.csv
+README.md
 
-Use this section to explain the structure of your repo. This should help visitors quickly figure out where they should look to find certain elements. Further, you can use this space to highlight and briefly explain important/key files in the repo.
 
 
 ## Authors
 
-Give information about who are the authors of the project and how people can get in touch if they have questions.
+
