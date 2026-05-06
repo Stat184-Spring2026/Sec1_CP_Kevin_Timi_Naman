@@ -9,10 +9,6 @@ This project analyzes game-by-game performance data from the 2024–2025 NBA sea
 We explore key basketball concepts like volume scoring vs. efficiency, positional differences, and how playing time influences performance. Through data wrangling and visualization, we identify patterns and player strengths to support a data-driven MVP argument.
 
 
-### Interesting Insight (Optional)
-
-This is optional but highly recommended. You'll include one interesting insight from your project as part of the README. This insight is most effective when you include a visual. Keep in mind that this visual must be included as an image file (e.g., JPG, PNG, etc.). You can export plots created with `{ggplot2}` by using the function `ggsave`.
-
 ## Data Provenance
 The dataset used in this project is from Basketball Reference
 Website: https://www.basketball-reference.com/leagues/NBA_2025_per_game.html
@@ -32,6 +28,17 @@ We cleaned the data by:
 - Keeping combined team totals for traded players
 - Filtering players who played at least 20 games
 
+## FAIR Principles
+
+- **Findable:** Data is publicly available on Basketball Reference  
+- **Accessible:** Dataset can be downloaded as CSV  
+- **Interoperable:** Data is structured and usable in R and other tools  
+- **Reusable:** Data can be reused for analysis, though not version-controlled  
+
+## CARE Principles
+
+The dataset contains publicly available NBA statistics and does not involve sensitive or community-specific data. CARE principles are not directly applicable, but the data is used responsibly for educational purposes.
+
 
 ## Current Plan
 
@@ -45,49 +52,21 @@ NBA_FinalProj_ST184.qmd
 nba_per_game25.csv
 README.md
 
-## Data Pro
 
 
+**Naman Joshi**  
+- Applied Data Sciences & Supply Chain Management  
+- The Pennsylvania State University  
+- Email: nfj5099@psu.edu  
 
-## Authors
+**Kevin Nguyen**  
+- Computational Data Sciences  
+- The Pennsylvania State University  
+- Email: kpn5284@psu.edu  
 
-  - name: Naman Joshi
-    corresponding: true
-    email: nfj5099@psu.edu
-    role:
-      - Student
-      - Applied Data Sciences and Supply Chain Management
-    affiliations: 
-      - id: psu
-        name: The Pennsylvania State University
-        city: University Park
-        state: PA
-        country: USA
-        
-  - name: Kevin Nguyen
-    corresponding: true
-    email: kpn5284@psu.edu
-    role:
-      - Student
-      - Computational Data Sciences
-    affiliations: 
-      - id: psu
-        name: The Pennsylvania State University
-        city: University Park
-        state: PA
-        country: USA
-        
-  - name: Timilehin Balogun
-    corresponding: true
-    email: oib5054@psu.edu
-    role:
-      - Student
-      - Applied Data Sciences
-    affiliations: 
-      - id: psu
-        name: The Pennsylvania State University
-        city: University Park
-        state: PA
-        country: USA
+**Timilehin Balogun**  
+- Applied Data Sciences  
+- The Pennsylvania State University  
+- Email: oib5054@psu.edu  
 
-
+---
