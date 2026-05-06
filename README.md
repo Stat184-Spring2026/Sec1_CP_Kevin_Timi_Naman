@@ -13,7 +13,7 @@ We explore key basketball concepts like volume scoring vs. efficiency, positiona
 
 This is optional but highly recommended. You'll include one interesting insight from your project as part of the README. This insight is most effective when you include a visual. Keep in mind that this visual must be included as an image file (e.g., JPG, PNG, etc.). You can export plots created with `{ggplot2}` by using the function `ggsave`.
 
-## Data Sources and Acknowledgements
+## Data Provenance
 The dataset used in this project is from Basketball Reference
 Website: https://www.basketball-reference.com/leagues/NBA_2025_per_game.html
 
@@ -25,6 +25,12 @@ The variables we used are:
 - turnovers per game
 - minutes per game
 We exported the dataset as a CSV file and then cleaned it up using R
+Data Cleaning Steps
+We cleaned the data by:
+- Removing repeated header rows
+- Removing duplicate player entries
+- Keeping combined team totals for traded players
+- Filtering players who played at least 20 games
 
 
 ## Current Plan
@@ -38,6 +44,8 @@ Visualization_Final_code.R
 NBA_FinalProj_ST184.qmd
 nba_per_game25.csv
 README.md
+
+## Data Pro
 
 
 
