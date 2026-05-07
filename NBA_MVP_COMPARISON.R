@@ -157,6 +157,24 @@ pointspositionplot <- ggplot(
 # Show plot
 pointspositionplot
 
+# Step 9B: Create scoring summary by position table ----
+## Code Header:
+## Primary Author: Kevin Nguyen
+## Reviewer: Naman Joshi
+## This table summarizes scoring by position using average, median, and highest points per game.
+
+positionscoringtable <- nba |>
+  group_by(Pos) |>
+  summarize(
+    `Average Points` = round(mean(PTS, na.rm = TRUE), 1),
+    `Median Points` = round(median(PTS, na.rm = TRUE), 1),
+    `Highest Points` = round(max(PTS, na.rm = TRUE), 1)
+  )
+
+knitr::kable(
+  positionscoringtable,
+  caption = "Scoring Summary by NBA Position"
+)
 
 # Step 10: Create average stats by position table ----
 ## Code Header:
