@@ -1,0 +1,639 @@
+---
+title: "NBA Players Analysis"
+subtitle: "STAT 184 Spring 2026"
+authors:
+  - name: Naman Joshi
+    corresponding: true
+    email: nfj5099@psu.edu
+    role:
+      - Student
+      - Applied Data Sciences and Supply Chain Management
+    affiliations: 
+      - id: psu
+        name: The Pennsylvania State University
+        city: University Park
+        state: PA
+        country: USA
+        
+  - name: Kevin Nguyen
+    corresponding: true
+    email: kpn5284@psu.edu
+    role:
+      - Student
+      - Computational Data Sciences
+    affiliations: 
+      - id: psu
+        name: The Pennsylvania State University
+        city: University Park
+        state: PA
+        country: USA
+        
+  - name: Timilehin Balogun
+    corresponding: true
+    email: oib5054@psu.edu
+    role:
+      - Student
+      - Applied Data Sciences
+    affiliations: 
+      - id: psu
+        name: The Pennsylvania State University
+        city: University Park
+        state: PA
+        country: USA
+  
+date: "May. 6, 2026"
+format: 
+  pdf: 
+    toc: false
+    number-sections: true
+    number-depth: 5
+    fig-align: center
+    cap-location: top
+    geometry: 
+      - top=1in
+      - left=1in
+      - right=1in
+      - bottom=1in
+    colorlinks: true
+execute: 
+  echo: false
+  warning: false
+---
+
+# NBA Player Performance Analysis
+
+This report analyzes NBA player performance using per game statistics from the 2024–25 season. The goal is to explore relationships between scoring, playmaking, and player roles across positions. The analysis includes data cleaning, multiple visualizations, and interpretation of patterns in player performance.
+
+
+# Data Description
+
+The dataset contains per game statistics for NBA players, including variables such as points, assists, rebounds, field goal percentage, position, and minutes played. Since the dataset includes repeated headers and duplicate player entries, it required cleaning before analysis.
+
+
+## Data Provenance
+
+The data used in this analysis comes from the file 'nba_per_game25.csv'. The dataset includes player performance variables such as points, assists, rebounds, minutes played, shooting percentages, team, and position. For this project, it was used to compare NBA players across positions and to evaluate MVP-caliber players based on their statistics.
+
+The website used to get this data is: https://www.basketball-reference.com/
+
+## Fair and CARE Principles
+
+The dataset satisfies the FAIR principles because it is findable, stored in the csv file in the project repository. It is accessible. It is interoperable as the csv can be read by multiple programs. It is also reusable reusable.
+
+The CARE principles are less central to this project because the dataset is about professional NBA players and does not involve Indigenous data or private community-owned data. the analysis uses the data responsibly by focusing on public performance statistics and avoiding claims that go beyond what the data can show.
+
+# Data Cleaning and Wrangling
+
+```{r}
+# Step 1: Load packages ----
+## Needed packages: {tidyverse}, {knitr} 
+
+library(tidyverse)
+library(knitr)
+
+# Step 2: Load data ----
+## Needed data: NBA player game statistics
+
+nba <- read_csv("nba_per_game25.csv")
+
+# Step 3: Check imported data ----
+## View the dataset and check the structure
+
+#not done in quarto
+
+# Step 4: Clean repeated header rows ----
+## Remove repeated header rows if they appear in the data
+
+nba <- nba |>
+  filter(Player != "Player")
+
+# Step 5: Remove duplicate player rows ----
+##Keep the combined team row for players who played on multiple teams
+
+nba <- nba |>
+  filter(Team == "2TM" | !duplicated(Player))
+
+# Step 6: Filter players by games played ----
+## Keep players who played at least 20 games
+
+nba <- nba |>
+  filter(G >= 20)
+
+# Step 7: Create MVP candidate dataset ----
+## Keep the three players we want to compare
+
+mvpcandidates <- nba |>
+  filter(Player %in% c(
+    "Luka Dončić",
+    "Nikola Jokić",
+    "Shai Gilgeous-Alexander"
+  ))
+```
+
+The dataset was cleaned by removing repeated header rows and duplicate player entries. Players who appeared on multiple teams were represented using their combined statistics. Additionally, only players who played at least 20 games were included to ensure a fair comparison.
+
+
+# Points vs Assists
+Primary Author: Naman Joshi
+
+``` {r fig-points-assists}
+#| fig-cap: "Points vs Assists for NBA Players"
+#| fig-alt: "Scatterplot showing NBA players by points per game on the x-axis and assists per game on the y-axis. Players are colored by position, and the MVP candidates are highlighted in red with their names labeled."
+
+
+# Reviewer: Kevin Nguyen
+# This chunk creates the points versus assists scatterplot and highlights the MVP candidates.
+
+pointsassistsplot <- ggplot(
+  data = nba,
+  aes(
+    x = PTS,
+    y = AST,
+    color = Pos
+  )
+) +
+  geom_point(alpha = 0.5) +
+  geom_point(
+    data = mvpcandidates,
+    color = "red",
+    size = 4
+  ) +
+  geom_text(
+    data = mvpcandidates,
+    aes(label = Player),
+    color = "black",
+    vjust = -1
+  ) +
+  labs(
+    title = "Points vs Assists",
+    subtitle = "MVP candidates are highlighted in red",
+    x = "Points Per Game",
+    y = "Assists Per Game",
+    color = "Position"
+  )
+
+# Show plot
+pointsassistsplot
+```
+
+As shown in @fig-points-assists, there is a clear positive relationship between points per game and assists per game. In general, players who score more also tend to have higher assist numbers, which suggests that offensive often includes both scoring and playmaking. However, the relationship is not perfectly linear, meaning not all high scorers are strong playmakers.
+
+The MVP candidates stand out clearly in the plot compared to the rest of the league. Nikola Jokić is especially unique because he combines high scoring with very high assist numbers, which is uncommon (and quite impressive) for his position. This highlights his role as a playmaking center rather than a traditional big man. Luka Dončić also shows a similar pattern, contributing heavily in both scoring and assists, while Shai Gilgeous-Alexander appears as a high scorer with relatively lower assists, indicating a more scoring-focused role which shows accuracy.
+
+Another important observation is the spread of the data. Most players cluster in the lower to mid ranges of both points and assists, while only a few players show up in the top-right region of the plot. This shows how rare it is for a player to excel in both categories at a high level.
+
+Overall, this visualization helps compare elite players to the rest of the league and highlights different styles of offensive contribution. It also reinforces that MVP-level players are not only high scorers but are often heavily involved in multiple aspects of the offense.
+
+# Points per game by Position
+Primary Author: Kevin Nguyen
+
+```{r fig-boxplot}
+#| fig-cap: "Points Per Game by Position"
+#| fig-alt: "Boxplot showing the distribution of points per game for NBA players across different positions. The plot compares scoring medians, spread, and outliers for each position."
+#| fig-pos: H
+
+
+
+# Reviewer: Naman Joshi
+# This chunk creates a boxplot showing the distribution of points per game by position.
+
+#| fig-cap: "Points Per Game by Position"
+#| fig-pos: H
+
+pointsPositionPlot <- ggplot(
+  data = nba,
+  aes(x = Pos, y = PTS, fill = Pos)
+) +
+  geom_boxplot() +
+  labs(
+    title = "Points Per Game by Position",
+    subtitle = "Distribution of scoring across NBA positions",
+    x = "Position",
+    y = "Points Per Game",
+    fill = "Position"
+  )
+
+pointsPositionPlot
+```
+
+This figure @fig-boxplot shows the distribution of ppg across positions. The boxplots display the median, quartiles, and potential outliers for each position, and this provides a insight on how scoring is different per position.
+
+Based off this visualization, guards generally show a wider spread in scoring, and they have several high-scoring outliers. Forwards also score a lot, while centers have a slightly lower median but still include high-scoring outliers.
+
+This visualization is useful because it provides a clear comparison of scoring patterns across positions and highlights variability within each role.
+
+# Average Player Stats by Position
+Primary Author: Timilehin Balogun
+
+```{r fig-bar}
+#| fig-cap: "Average Points, Rebounds, and Assists by NBA Position"
+#| fig-alt: "Bar chart showing average points, rebounds, and assists per game for each NBA position. The chart compares how different positions contribute across the three main statistics."
+#| fig-pos: H
+
+
+
+# Reviewer: Naman Joshi
+# This chunk creates a plot comparing average points, rebounds, and assists by position.
+
+
+positionSummary <- nba |>
+  group_by(Pos) |>
+  summarize(
+    avg_points = mean(PTS, na.rm = TRUE),
+    avg_rebounds = mean(TRB, na.rm = TRUE),
+    avg_assists = mean(AST, na.rm = TRUE)
+  )
+
+positionSummaryLong <- positionSummary |>
+  pivot_longer(
+    cols = c(avg_points, avg_rebounds, avg_assists),
+    names_to = "stat_type",
+    values_to = "average_value"
+  ) |>
+  mutate(
+    stat_type = case_when(
+      stat_type == "avg_points" ~ "Points",
+      stat_type == "avg_rebounds" ~ "Rebounds",
+      stat_type == "avg_assists" ~ "Assists"
+    )
+  )
+
+positionstatsplot <- ggplot(
+  data = positionSummaryLong,
+  aes(x = Pos, y = average_value, fill = stat_type)
+) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "Average Points, Rebounds, and Assists by NBA Position",
+    subtitle = "2024-25 NBA player per game statistics",
+    x = "Position",
+    y = "Average Per Game",
+    fill = "Statistic"
+  )
+
+positionstatsplot
+```
+
+As shown in @fig-bar,  Guards tend to have a higher amount of assists and points. This makes sense as they are the primary ball handlers and are great at playmaking and scoring. Centers tend to have higher rebound averages due to their positioning near the basket.
+
+Scoring appears relatively balanced across positions, although guards and forwards often have slightly higher averages.
+
+# MVP Player Comparison
+Primary Author: Timilehin Balogun
+
+```{r tbl-mvp}
+# MVP Comparison
+
+# Reviewer: Kevin Nguyen
+# This chunk creates a table comparing the main statistics for the selected MVP candidates.
+#| label: tbl-mvp
+#| tbl-cap: "Comparison of MVP-caliber players"
+
+mvpTable <- mvpcandidates |>
+  select(
+    Player,
+    Team,
+    Pos,
+    G,
+    MP,
+    PTS,
+    AST,
+    TRB,
+    TOV,
+    `FG%`,
+    `3P%`,
+    `FT%`
+  )
+
+colnames(mvpTable) <- c(
+  "Player",
+  "Team",
+  "Position",
+  "Games",
+  "Minutes",
+  "Points",
+  "Assists",
+  "Rebounds",
+  "Turnovers",
+  "FG%",
+  "3P%",
+  "FT%"
+)
+
+mvpTable <- mvpTable |>
+  mutate(
+    Minutes = round(Minutes, 1),
+    Points = round(Points, 1),
+    Assists = round(Assists, 1),
+    Rebounds = round(Rebounds, 1),
+    Turnovers = round(Turnovers, 1)
+  )
+
+knitr::kable(mvpTable)
+```
+As shown in @tbl-mvp, all 3 players that were on the MVP list showed achievements and ability in all rankings that prove why they were there. They all scored, rebounded, and assisted higher than the average of their positions.
+
+
+
+Nikola Jokić stands out with highest assist and rebound numbers of the 3. To get rebounds as a center is commonplace, but the assist numbers show his versatility in being a playmaker and center. 
+
+Luka Dončić also contributes heavily in assists while still being a top scorer. 
+
+Shai Gilgeous-Alexander, has less assists per game than both Luka and Jokic, but has higher points per game, while also having played more games.
+
+Out of the 3 of them, Jokic, has the highest FG percentage, but as a center, that is the norm. Shai, on the other hand is a guard with a 52% FG average, which is outstanding. He also has the highest free throw percentage.
+
+
+# Conclusion
+
+Overall, the analysis shows that NBA player performance varies significantly across positions and roles. The scatterplot demonstrates relationships between scoring and playmaking, while the boxplot highlights differences in scoring distributions. The bar chart provides a summary of how different positions contribute in key statistical categories.
+
+These visualizations, along with the stats of the MVP-Caliber Players points to our general conclusion of Shai being the rightful MVP. He may have not had the most assists in the season, but he still had higher than his positional average, while also leading in scoring, on greater efficiency than Luka Doncic.
+
+{{< pagebreak >}}
+
+# Author Contributions
+
+Naman Joshi contributed to the points versus assists visualization and the supporting table for comparing scoring and playmaking among MVP candidates. He also helped review the project code and interpretation of player performance.
+
+Kevin Nguyen contributed to the points per game by position boxplot and helped review the visual analysis comparing scoring across NBA positions. He also helped with project organization and code review.
+
+Timilehin Balogun contributed to the average player statistics by position visualization and the MVP player comparison table. He also helped write the interpretation of the MVP candidates and the final conclusion.
+
+All group members contributed to planning the project, cleaning the data, reviewing the report, and preparing the final reproducible Quarto document.
+
+# Code Appendix
+
+```{r}
+#| echo: true
+#| eval: false
+#| warning: false
+#| message: false
+
+# NBA MVP Candidate Visualizations ----
+# Style Guide: tidyverse Style Guide
+
+
+## Our goals are:
+## - To use visualizations to show analytically, the MVP of the 2024/25 NBA season.
+## - Clean the NBA player statistics data
+## - Keep players who played at least 20 games
+## - Create a smaller dataset for MVP-caliber players
+## - Create visualizations comparing these players to the rest of their NBA counterparts
+
+
+### Wrangling the data and creating the plots
+
+# Step 1: Load packages ----
+## Needed packages: {tidyverse}, {knitr} 
+
+library(tidyverse)
+library(knitr)
+
+# Step 2: Load data ----
+## Needed data: NBA player game statistics
+
+nba <- read_csv("nba_per_game25.csv")
+
+# Step 3: Check imported data ----
+## View the dataset and check the structure
+
+View(nba)
+str(nba)
+
+# Step 4: Clean repeated header rows ----
+## Remove repeated header rows if they appear in the data
+
+nba <- nba |>
+  filter(Player != "Player")
+
+# Step 5: Remove duplicate player rows ----
+##Keep the combined team row for players who played on multiple teams
+
+nba <- nba |>
+  filter(Team == "2TM" | !duplicated(Player))
+
+# Step 6: Filter players by games played ----
+## Keep players who played at least 20 games
+
+nba <- nba |>
+  filter(G >= 20)
+
+# Step 7: Create MVP candidate dataset ----
+## Keep the three players we want to compare
+
+mvpcandidates <- nba |>
+  filter(Player %in% c(
+    "Luka Dončić",
+    "Nikola Jokić",
+    "Shai Gilgeous-Alexander"
+  ))
+
+View(mvpcandidates)
+
+# Step 8: Create points and assists scatterplot ----
+## Code Header:
+## Primary Author: Naman Joshi
+## Reviewer: Kevin Nguyen
+## This plot compares scoring and playmaking while highlighting the MVP candidates
+
+pointsassistsplot <- ggplot(
+  data = nba,
+  aes(
+    x = PTS,
+    y = AST,
+    color = Pos
+  )
+) +
+  geom_point(alpha = 0.5) +
+  geom_point(
+    data = mvpcandidates,
+    color = "red",
+    size = 4
+  ) +
+  geom_text(
+    data = mvpcandidates,
+    aes(label = Player),
+    color = "black",
+    vjust = -1
+  ) +
+  labs(
+    title = "Points vs Assists",
+    subtitle = "MVP candidates are highlighted in red",
+    x = "Points Per Game",
+    y = "Assists Per Game",
+    color = "Position"
+  )
+
+# Show plot
+pointsassistsplot
+
+# Step 8B: Create points and assists table ----
+## Code Header:
+## Primary Author: Naman Joshi
+## Reviewer: Kevin Nguyen
+## This table supports the points vs assists plot by comparing scoring and playmaking.
+
+namanpointsassiststable <- mvpcandidates |>
+  select(
+    Player,
+    Team,
+    Pos,
+    PTS,
+    AST
+  )
+
+colnames(namanpointsassiststable) <- c(
+  "Player",
+  "Team",
+  "Position",
+  "Points Per Game",
+  "Assists Per Game"
+)
+
+namanpointsassiststable <- namanpointsassiststable |>
+  mutate(
+    `Points Per Game` = round(`Points Per Game`, 1),
+    `Assists Per Game` = round(`Assists Per Game`, 1)
+  )
+
+knitr::kable(
+  namanpointsassiststable,
+  caption = "Points and assists comparison for MVP candidates"
+)
+
+
+# Step 9: Create points by position boxplot ----
+## Code Header:
+## Primary Author: Kevin Nguyen
+## Reviewer: Naman Joshi
+## This plot compares the distribution of scoring across player positions
+
+pointspositionplot <- ggplot(
+  data = nba,
+  aes(
+    x = Pos,
+    y = PTS,
+    fill = Pos
+  )
+) +
+  geom_boxplot() +
+  labs(
+    title = "Points Per Game by Position",
+    subtitle = "Distribution of scoring across NBA positions",
+    x = "Position",
+    y = "Points Per Game",
+    fill = "Position"
+  )
+
+# Show plot
+pointspositionplot
+
+
+# Step 10: Create average stats by position table ----
+## Code Header:
+## Primary Author: Timilehin Balogun
+## Reviewer: Naman Joshi
+## This summarizes average points, rebounds, and assists for each NBA position
+
+positionstats <- nba |>
+  group_by(Pos) |>
+  summarize(
+    points = mean(PTS, na.rm = TRUE),
+    rebounds = mean(TRB, na.rm = TRUE),
+    assists = mean(AST, na.rm = TRUE)
+  )
+
+positionstatslong <- positionStats |>
+  pivot_longer(
+    cols = c(points, rebounds, assists),
+    names_to = "stat",
+    values_to = "average"
+  )
+
+positionstatslong <- positionStatsLong |>
+  mutate(
+    stat = case_when(
+      stat == "points" ~ "Points",
+      stat == "rebounds" ~ "Rebounds",
+      stat == "assists" ~ "Assists"
+    )
+  )
+
+# Step 11: Create average stats by position bar chart ----
+## Code Header:
+## Primary Author: Timilehin Balogun
+## Reviewer: Naman Joshi
+## This plot compares average points, rebounds, and assists for each position
+
+positionstatsplot <- ggplot(
+  data = positionStatsLong,
+  aes(
+    x = Pos,
+    y = average,
+    fill = stat
+  )
+) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "Average Points, Rebounds, and Assists by Position",
+    x = "Position",
+    y = "Average Per Game",
+    fill = "Stat"
+  ) +
+  theme_minimal()
+
+# Show plot
+positionstatsplot
+
+# Step 12: Create MVP candidate table ----
+## Code Header:
+## Primary Author: Timilehin Balogun
+## Reviewer: Kevin Nguyen
+## This table compares the main statistics for the selected players
+
+mvptable <- mvpcandidates |>
+  select(
+    Player,
+    Team,
+    Pos,
+    G,
+    MP,
+    PTS,
+    AST,
+    TRB,
+    TOV,
+    `FG%`,
+    `3P%`,
+    `FT%`
+  )
+
+# Rename columns to look cleaner
+colnames(mvptable) <- c(
+  "Player",
+  "Team",
+  "Position",
+  "Games",
+  "Minutes",
+  "Points",
+  "Assists",
+  "Rebounds",
+  "Turnovers",
+  "FG%",
+  "3P%",
+  "FT%"
+)
+
+# Round numeric columns
+mvptable <- mvptable |>
+  mutate(
+    Minutes = round(Minutes, 1),
+    Points = round(Points, 1),
+    Assists = round(Assists, 1),
+    Rebounds = round(Rebounds, 1),
+    Turnovers = round(Turnovers, 1)
+  )
+
+# Display table
+View(mvptable)
+```
