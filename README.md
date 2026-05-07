@@ -74,7 +74,7 @@ This repository contains all files related to the final project:
 
 ## Final Insight
 
-Overall, this analysis shows that MVP-level performance is not defined by scoring alone. Players like Nikola Jokić contribute across multiple categories, while guards like Luka Dončić and Shai Gilgeous-Alexander balance scoring with playmaking. This reinforces the importance of evaluating players based on their roles and overall impact rather than a single statistic.
+Overall, this analysis shows that MVP-level performance is not defined by scoring alone. Players like Nikola Jokić contribute across multiple categories, while guards like Luka Dončić and Shai Gilgeous-Alexander balance scoring with playmaking. Although many things canchange our perspective these visualizations help us see patterns and trends This reinforces the importance of evaluating players based on their roles and overall impact rather than a single statistic.
 
 
 ## Authors 
