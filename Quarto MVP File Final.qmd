@@ -78,7 +78,7 @@ The website used to get this data is: https://www.basketball-reference.com/
 
 ## Fair and CARE Principles
 
-The dataset satisfies the FAIR principles because it is findable, stored in the csv file in the project repository. It is accessible. It is interoperable as the csv can be read by multiple programs. It is also reusable reusable.
+The dataset satisfies the FAIR principles because it is findable, stored in the csv file in the project repository. It is accessible. It is interoperable as the csv can be read by multiple programs. It is also reusable.
 
 The CARE principles are less central to this project because the dataset is about professional NBA players and does not involve Indigenous data or private community-owned data. the analysis uses the data responsibly by focusing on public performance statistics and avoiding claims that go beyond what the data can show.
 
@@ -196,9 +196,6 @@ Primary Author: Kevin Nguyen
 
 # Reviewer: Naman Joshi
 # This chunk creates a boxplot showing the distribution of points per game by position.
-
-#| fig-cap: "Points Per Game by Position"
-#| fig-pos: H
 
 pointsPositionPlot <- ggplot(
   data = nba,
@@ -350,7 +347,6 @@ Overall, the analysis shows that NBA player performance varies significantly acr
 
 These visualizations, along with the stats of the MVP-Caliber Players points to our general conclusion of Shai being the rightful MVP. He may have not had the most assists in the season, but he still had higher than his positional average, while also leading in scoring, on greater efficiency than Luka Doncic.
 
-{{< pagebreak >}}
 
 # Author Contributions
 
@@ -361,6 +357,9 @@ Kevin Nguyen contributed to the points per game by position boxplot and helped r
 Timilehin Balogun contributed to the average player statistics by position visualization and the MVP player comparison table. He also helped write the interpretation of the MVP candidates and the final conclusion.
 
 All group members contributed to planning the project, cleaning the data, reviewing the report, and preparing the final reproducible Quarto document.
+
+{{< pagebreak >}}
+
 
 # Code Appendix
 
@@ -544,14 +543,14 @@ positionstats <- nba |>
     assists = mean(AST, na.rm = TRUE)
   )
 
-positionstatslong <- positionStats |>
+positionstatslong <- positionstats |>
   pivot_longer(
     cols = c(points, rebounds, assists),
     names_to = "stat",
     values_to = "average"
   )
 
-positionstatslong <- positionStatsLong |>
+positionstatslong <- positionstatslong |>
   mutate(
     stat = case_when(
       stat == "points" ~ "Points",
@@ -567,7 +566,7 @@ positionstatslong <- positionStatsLong |>
 ## This plot compares average points, rebounds, and assists for each position
 
 positionstatsplot <- ggplot(
-  data = positionStatsLong,
+  data = positionstatslong,
   aes(
     x = Pos,
     y = average,
