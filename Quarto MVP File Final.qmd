@@ -134,13 +134,13 @@ The dataset was cleaned by removing repeated header rows and duplicate player en
 
 
 # Points vs Assists
-Primary Author: Naman Joshi
+
 
 ``` {r fig-points-assists}
 #| fig-cap: "Points vs Assists for NBA Players"
 #| fig-alt: "Scatterplot showing NBA players by points per game on the x-axis and assists per game on the y-axis. Players are colored by position, and the MVP candidates are highlighted in red with their names labeled."
 
-
+# Primary Author: Naman Joshi
 # Reviewer: Kevin Nguyen
 # This chunk creates the points versus assists scatterplot and highlights the MVP candidates.
 
@@ -185,7 +185,7 @@ Another important observation is the spread of the data. Most players cluster in
 Overall, this visualization helps compare elite players to the rest of the league and highlights different styles of offensive contribution. It also reinforces that MVP-level players are not only high scorers but are often heavily involved in multiple aspects of the offense.
 
 # Points per game by Position
-Primary Author: Kevin Nguyen
+
 
 ```{r fig-boxplot}
 #| fig-cap: "Points Per Game by Position"
@@ -193,7 +193,7 @@ Primary Author: Kevin Nguyen
 #| fig-pos: H
 
 
-
+# Primary Author: Kevin Nguyen
 # Reviewer: Naman Joshi
 # This chunk creates a boxplot showing the distribution of points per game by position.
 
@@ -220,7 +220,7 @@ Based off this visualization, guards generally show a wider spread in scoring, a
 This visualization is useful because it provides a clear comparison of scoring patterns across positions and highlights variability within each role.
 
 # Average Player Stats by Position
-Primary Author: Timilehin Balogun
+
 
 ```{r fig-bar}
 #| fig-cap: "Average Points, Rebounds, and Assists by NBA Position"
@@ -228,7 +228,7 @@ Primary Author: Timilehin Balogun
 #| fig-pos: H
 
 
-
+# Primary Author: Timilehin Balogun
 # Reviewer: Naman Joshi
 # This chunk creates a plot comparing average points, rebounds, and assists by position.
 
@@ -276,11 +276,11 @@ As shown in @fig-bar,  Guards tend to have a higher amount of assists and points
 Scoring appears relatively balanced across positions, although guards and forwards often have slightly higher averages.
 
 # MVP Player Comparison
-Primary Author: Timilehin Balogun
+
 
 ```{r tbl-mvp}
 # MVP Comparison
-
+# Primary Author: Timilehin Balogun
 # Reviewer: Kevin Nguyen
 # This chunk creates a table comparing the main statistics for the selected MVP candidates.
 #| label: tbl-mvp
