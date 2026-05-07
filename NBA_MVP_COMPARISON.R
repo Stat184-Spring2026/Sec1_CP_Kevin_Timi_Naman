@@ -57,7 +57,7 @@ mvpcandidates <- nba |>
     "Shai Gilgeous-Alexander"
   ))
 
-View(mvpCandidates)
+View(mvpcandidates)
 
 # Step 8: Create points and assists scatterplot ----
 ## Code Header:
@@ -75,12 +75,12 @@ pointsassistsplot <- ggplot(
 ) +
   geom_point(alpha = 0.5) +
   geom_point(
-    data = mvpCandidates,
+    data = mvpcandidates,
     color = "red",
     size = 4
   ) +
   geom_text(
-    data = mvpCandidates,
+    data = mvpcandidates,
     aes(label = Player),
     color = "black",
     vjust = -1
@@ -102,7 +102,7 @@ pointsassistsplot
 ## Reviewer: Kevin Nguyen
 ## This table supports the points vs assists plot by comparing scoring and playmaking.
 
-namanpointsassiststable <- mvpCandidates |>
+namanpointsassiststable <- mvpcandidates |>
   select(
     Player,
     Team,
@@ -155,7 +155,7 @@ pointspositionplot <- ggplot(
   )
 
 # Show plot
-pointsPositionPlot
+pointspositionplot
 
 
 # Step 10: Create average stats by position table ----
@@ -172,14 +172,14 @@ positionstats <- nba |>
     assists = mean(AST, na.rm = TRUE)
   )
 
-positionstatslong <- positionStats |>
+positionstatslong <- positionstats |>
   pivot_longer(
     cols = c(points, rebounds, assists),
     names_to = "stat",
     values_to = "average"
   )
 
-positionstatslong <- positionStatsLong |>
+positionstatslong <- positionstatslong |>
   mutate(
     stat = case_when(
       stat == "points" ~ "Points",
@@ -195,7 +195,7 @@ positionstatslong <- positionStatsLong |>
 ## This plot compares average points, rebounds, and assists for each position
 
 positionstatsplot <- ggplot(
-  data = positionStatsLong,
+  data = positionstatslong,
   aes(
     x = Pos,
     y = average,
@@ -212,7 +212,7 @@ positionstatsplot <- ggplot(
   theme_minimal()
 
 # Show plot
-positionStatsPlot
+positionstatsplot
 
 # Step 12: Create MVP candidate table ----
 ## Code Header:
@@ -263,4 +263,4 @@ mvptable <- mvptable |>
   )
 
 # Display table
-View(mvpTable)
+View(mvptable)
